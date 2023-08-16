@@ -33,7 +33,21 @@ console.table(contact)
 }
 
 async function removeContact(contactId) {
-  
+  const contacts = await getContacts()
+  const deletedContact = contacts.find(contact => contact.id === contactId);
+  const filteredContacts = contacts.filter(contact => contact.id !== contactId);
+
+  console.log("You deleted:")
+  console.table(deletedContact)
+  fs.writeFile(contactsPath, JSON.stringify(filteredContacts, null, 2), (error) => {
+    if (error) {
+      console.error(error.message);
+    } else {
+      console.log("File has been updated.");
+    }
+  });
+  console.log("What remains:")
+  console.table(filteredContacts)
 }
 
 async function addContact(name, email, phone) {}
