@@ -2,6 +2,7 @@ const path = require("node:path");
 const fs = require("node:fs");
 const fsPromises = require("fs").promises;
 const { v4: uuidv4 } = require('uuid');
+require ("colors")
 
 const contactsPath = path.join(__dirname, "db", "contacts.json");
 
@@ -16,7 +17,7 @@ async function getContacts() {
 
 async function listContacts() {
 const allContacts = await getContacts()
-console.log("kontakty:")
+console.log("kontakty:".yellow)
 console.table(allContacts)
 
 }
@@ -25,10 +26,10 @@ async function getContactById(contactId) {
   const sameContacts = await getContacts()
   sameContacts.filter(contact => {
 if (contact.id === contactId) {
-console.log("Selected contact:")
+console.log("Selected contact:".yellow)
 console.table(contact)
 } else {
-  console.log("No contact matches your search!")
+  console.log("No contact matches your search!".red)
 }
   })
 }
@@ -38,16 +39,16 @@ async function removeContact(contactId) {
   const deletedContact = contacts.find(contact => contact.id === contactId);
   const filteredContacts = contacts.filter(contact => contact.id !== contactId);
 
-  console.log("You deleted:")
+  console.log("You deleted:".red)
   console.table(deletedContact)
   fs.writeFile(contactsPath, JSON.stringify(filteredContacts, null, 2), (error) => {
     if (error) {
       console.error(error.message);
     } else {
-      console.log("File has been updated.");
+      console.log("File has been updated.".green);
     }
   });
-  console.log("What remains:")
+  console.log("What remains:".yellow)
   console.table(filteredContacts)
 }
 async function addContact(name, email, phone) {
@@ -58,9 +59,9 @@ fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2), (error) => {
   if (error) {
     console.error(error.message);
   } else {
-    console.log("File has been updated.");
+    console.log("File has been updated.".green);
   }
-  console.log(`${name} has been added.`)
+  console.log(`${name} has been added.`.green)
   console.table(contacts)
 });}
 
