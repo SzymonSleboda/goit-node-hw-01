@@ -63,3 +63,5 @@ fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2), (error) => {
   console.log(`${name} has been added.`)
   console.table(contacts)
 });}
+
+module.exports = {listContacts, addContact, removeContact, getContactById}
