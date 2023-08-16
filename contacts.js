@@ -29,7 +29,7 @@ if (contact.id === contactId) {
 console.log("Selected contact:".yellow)
 console.table(contact)
 } else {
-  console.log("No contact matches your search!".red)
+  return;
 }
   })
 }
