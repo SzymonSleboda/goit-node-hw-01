@@ -1,6 +1,7 @@
 const path = require("node:path");
 const fs = require("node:fs");
-const fsPromises = require("fs").promises; 
+const fsPromises = require("fs").promises;
+const { v4: uuidv4 } = require('uuid');
 
 const contactsPath = path.join(__dirname, "db", "contacts.json");
 
@@ -49,5 +50,16 @@ async function removeContact(contactId) {
   console.log("What remains:")
   console.table(filteredContacts)
 }
-
-async function addContact(name, email, phone) {}
+async function addContact(name, email, phone) {
+  const contacts = await getContacts()
+  const newContact = {id: uuidv4(), name, email, phone}
+  contacts.push(newContact)
+fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2), (error) => {
+  if (error) {
+    console.error(error.message);
+  } else {
+    console.log("File has been updated.");
+  }
+  console.log(`${name} has been added.`)
+  console.table(contacts)
+});}
